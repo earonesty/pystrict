@@ -1,41 +1,40 @@
 <!-- 
-[![Build Status](https://travis-ci.com/AtakamaLLC/cloudsync.svg?branch=master)](https://travis-ci.com/AtakamaLLC/cloudsync)
+[![Build Status](https://travis-ci.com/earonesty/pystrict.svg?branch=master)](https://travis-ci.com/earonesty/pystrict)
 -->
 
-## cloudsync
+## strict
 
-Python Cloud Synchronization Library
+Python strict tag
 
-    pip install cloudsync
+    pip install strict
+
+
+Using @strict on classes can prevent serious errors by raising an exception when an instance has a variable created outside of init.
+Unfortunately, linters don't (cannot) always catch this.  I can't express how much time this has saved me recently.
 
 Example:
+    from strict import strict
 
-    from cloudsync import CloudSync, CloudSyncProvider
+    # not allowed, missing type specifier
+    @strict
+    def foo(x: int, y):
+        ...
 
-    local = CloudSyncProvider("local", path="/usr/home/alice/test", monitor=True)
 
-    remote = CloudSyncProvider("gdrive", path="/test-folder")
+    # not allowed, missing type specifier in __init__
+    @strict
+    class Foo():
+        def __init__(self, x: int, y):
+            ...
 
-    remote.connect()
+    # not allowed, object modified outside of init
+    @strict
+    class Foo():
+        def __init__(self, x: int):
+            self.x = 1
 
-    sync = CloudSync(local, remote)
+    z=[Foo(1)]
 
-    sync.start()
-
-    with open("/usr/home/alice/test/hello.txt", "w") as f:
-        f.write("hello")
-
-    # give the monitor a second to notice the change
-    # alternatively we can "poke" the local provider, forcing a sync
-
-    time.sleep(1)
-    
-    sync.wait(timeout=10)
-
-    # using no_poke to deliberately trick our sync into *not* knowing about the rename 
-    remote.rename("/test-folder/hello.txt", "/test-folder/goodbye.txt", no_poke=True)
-
-    # we should still sync properly because of the event cursor
-    while not os.path.exists("/usr/home/alice/test/goodbye.txt"):
-        time.sleep(1)
+    # oops...
+    z[0].y = 4
 
