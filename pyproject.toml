@@ -1,0 +1,18 @@
+[build-system]
+requires = ["flit"]
+build-backend = "flit.buildapi"
+
+[tool.flit.metadata]
+module = "strict"
+author = "Erik Aronesty"
+author-email = "erik@q32.com"
+home-page = "https://github.com/earonesty/pystrict"
+description-file="README.md"
+# MUST be from this list: https://pypi.org/pypi?%3Aaction=list_classifiers
+classifiers=["Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+requires = []
+requires-python = ">=3.6"
