@@ -1,0 +1,19 @@
+language: python
+cache: pip
+sudo: false
+
+jobs:
+    include: 
+    - name: lint
+      stage: lint/unit
+      script:
+        - pylint *.py
+    - name: unit
+      script:
+        # tempoarily skip the path tests
+        - pytest .
+      python:
+        - '3.6'
+        - '3.7'
+install:
+- pip install -r requirements-dev.txt

@@ -1,3 +1,5 @@
+# pylint: disable=attribute-defined-outside-init, no-self-use, too-few-public-methods
+
 import unittest
 
 from strict import strict, StrictError
@@ -26,3 +28,18 @@ class TestStrict(unittest.TestCase):
             class Foo:
                 def __init__(self, z):
                     pass
+            Foo(1)
+
+    def test_strict_function(self):
+        with self.assertRaises(StrictError):
+            @strict
+            def plusone(x):
+                return x + 1
+
+            plusone(2)
+
+        @strict
+        def bop(x: int):
+            return x + 1
+
+        bop(1)
