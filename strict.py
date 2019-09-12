@@ -1,5 +1,15 @@
 # pylint: disable=protected-access
 
+"""
+## strict
+
+Using @strict on classes can prevent serious errors by raising an
+exception when an instance has a variable created outside of init.
+
+"""
+
+__version__ = "1.0"
+
 import inspect, itertools, functools
 
 __all__ = ['strict', 'StrictError']
