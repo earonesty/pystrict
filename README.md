@@ -1,6 +1,4 @@
-<!-- 
 [![Build Status](https://travis-ci.com/earonesty/pystrict.svg?branch=master)](https://travis-ci.com/earonesty/pystrict)
--->
 
 ## strict
 
