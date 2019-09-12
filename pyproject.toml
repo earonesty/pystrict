@@ -3,7 +3,7 @@ requires = ["flit"]
 build-backend = "flit.buildapi"
 
 [tool.flit.metadata]
-module = "strict"
+module = "pystrict"
 author = "Erik Aronesty"
 author-email = "erik@q32.com"
 home-page = "https://github.com/earonesty/pystrict"

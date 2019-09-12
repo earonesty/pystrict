@@ -2,7 +2,7 @@
 
 import unittest
 
-from strict import strict, StrictError
+from pystrict import strict, StrictError
 
 class TestStrict(unittest.TestCase):
     def test_frozen(self):
