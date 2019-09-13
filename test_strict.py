@@ -33,13 +33,19 @@ class TestStrict(unittest.TestCase):
     def test_strict_function(self):
         with self.assertRaises(StrictError):
             @strict
-            def plusone(x):
+            def plusone(x) -> int:
                 return x + 1
-
             plusone(2)
 
+        with self.assertRaises(StrictError):
+            @strict
+            def plusone2(x: int):
+                return x + 1
+            plusone2(2)
+
+
         @strict
-        def bop(x: int):
+        def bop(x: int) -> int:
             return x + 1
 
         bop(1)
