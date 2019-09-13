@@ -10,13 +10,10 @@ Python strict tag
 Using @strict on classes can prevent serious errors by raising an exception when an instance has a variable created outside of init.
 Unfortunately, linters don't (cannot) always catch this.  I can't express how much time this has saved me recently.
 
-Using @strict on functions currently only checks type specifiers.   
-
-TODO: 
-
-`@strict(runtime=True)` will check types at runtime and raise ValueError if a bad type is passed
+Using @strict on functions only checks type specifiers.
 
 Example:
+
     from pystrict import strict
 
     # not allowed, missing type specifier
@@ -37,8 +34,9 @@ Example:
         def __init__(self, x: int):
             self.x = 1
 
-    z=[Foo(1)]
+    # mypy and pytest won't check this
+    def evil():
+        return list({'a':Foo(1)}.values())
 
-    # oops...
+    z = evil()
     z[0].y = 4
-
