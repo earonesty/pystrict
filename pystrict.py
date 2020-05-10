@@ -37,6 +37,7 @@ def _init_decorator(func):
     return wrapper
 
 def strict(thing):
+    thing.__strict__ = True
     if inspect.isfunction(thing):
         func = thing
         _check_args(func, checkret=True)
