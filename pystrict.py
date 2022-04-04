@@ -14,6 +14,7 @@ import inspect, itertools, functools
 
 __all__ = ['strict', 'StrictError']
 
+
 class StrictError(TypeError):
     pass
 
@@ -32,8 +33,9 @@ def _check_args(func, *, checkret):
 def _init_decorator(func):
     @functools.wraps(func)
     def wrapper(self, *args, **kwargs):
+        self._x_frozen += 1
         func(self, *args, **kwargs)
-        self._x_frozen = True
+        self._x_frozen -= 1
     return wrapper
 
 def strict(thing):
@@ -46,11 +48,11 @@ def strict(thing):
         cls = thing
 
         def frozen_setattr(self, key, value):
-            if self._x_frozen and not hasattr(self, key):
+            if not self._x_frozen and not hasattr(self, key):
                 raise StrictError("Class %s is frozen. Cannot set '%s'." % (cls.__name__, key))
             cls._x_setter(self, key, value)
 
-        cls._x_frozen = False
+        cls._x_frozen = 0
         cls._x_setter = getattr(cls, "__setattr__", object.__setattr__)
         cls.__setattr__ = frozen_setattr
         _check_args(cls.__init__, checkret=False)
