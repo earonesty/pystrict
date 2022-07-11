@@ -38,6 +38,20 @@ def _init_decorator(func):
         self._x_frozen -= 1
     return wrapper
 
+def _init_subclass_decorator(func):
+    if func:
+        @functools.wraps(func)
+        def wrapper(cls, *args, **kwargs):
+            func(*args, **kwargs)
+            if getattr(cls, "_x_setter"):
+                cls.__setattr__ = cls._x_setter
+    else:
+        def wrapper(cls, *args, **kwargs):
+            if getattr(cls, "_x_setter"):
+                cls.__setattr__ = cls._x_setter
+
+    return classmethod(wrapper)
+
 def strict(thing):
     thing.__strict__ = True
     if inspect.isfunction(thing):
@@ -57,4 +71,5 @@ def strict(thing):
         cls.__setattr__ = frozen_setattr
         _check_args(cls.__init__, checkret=False)
         cls.__init__ = _init_decorator(cls.__init__)
+        cls.__init_subclass__ = _init_subclass_decorator(getattr(cls, "__init_subclass__", None))
     return cls
