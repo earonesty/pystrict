@@ -46,7 +46,7 @@ def _init_subclass_decorator(func):
             if getattr(cls, "_x_setter"):
                 cls.__setattr__ = cls._x_setter
     else:
-        def wrapper(cls, *args, **kwargs):
+        def wrapper(cls, *_args, **_kwargs):
             if getattr(cls, "_x_setter"):
                 cls.__setattr__ = cls._x_setter
 
