@@ -68,7 +68,12 @@ class TestStrict(unittest.TestCase):
                 super().__init__()
                 self.edef = 2
 
-        # not tagged strict... so ... not strict at all
+        # parent still strict
+        with self.assertRaises(StrictError):
+            x = Foo()
+            x.bad = 1
+
+        # child not tagged strict... so ... not strict at all
         y = Bar()
         y.whatever = 9
 
