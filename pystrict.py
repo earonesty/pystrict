@@ -8,7 +8,7 @@ exception when an instance has a variable created outside of init.
 
 """
 
-__version__ = "1.2"
+__version__ = "1.3"
 
 import inspect, itertools, functools
 
